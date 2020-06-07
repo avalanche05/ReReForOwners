@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -17,10 +16,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.restaurantrent.ActConst;
 import com.example.restaurantrent.R;
-import com.example.restaurantrent.activities.Main3Activity;
+import com.example.restaurantrent.Server;
 import com.example.restaurantrent.activities.MainActivity;
+import com.example.restaurantrent.activities.ViewRentTablesActivity;
 import com.example.restaurantrent.adapters.RentAdapter;
-import com.example.restaurantrent.services.HttpService;
 
 public class NotificationsFragment extends Fragment {
 
@@ -35,22 +34,16 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                Intent i = new Intent(getActivity(), HttpService.class);
-                i.putExtra("act", ActConst.GET_RENTS_ACT);
-                i.putExtra("idOwner", MainActivity.idOwner);
-                getActivity().startService(i);
+                Server.getOwnerRent(MainActivity.owner.getId());
                 RentAdapter rentAdapter = new RentAdapter(getContext(),MainActivity.rents);
                 rentsList.setAdapter(rentAdapter);
                 rentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                         long restaurantId = MainActivity.rents.get(position).getIdRestaurant();
-                        Main3Activity.index = position;
-                        Intent i = new Intent(getActivity(), HttpService.class);
-                        i.putExtra("act", ActConst.GET_TABLES_ACT);
-                        i.putExtra("isRent",true);
-                        i.putExtra("idRestaurant",restaurantId);
-                        getActivity().startService(i);
+                        ViewRentTablesActivity.index = position;
+                        Server.tableGet(restaurantId,getActivity(),new Intent(getActivity(), ViewRentTablesActivity.class));
                     }
                 });
             }

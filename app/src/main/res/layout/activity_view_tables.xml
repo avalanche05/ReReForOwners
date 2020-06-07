@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.example.restaurantrent.activities.ViewTablesActivity">
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/button"
+        android:onClick="editButton"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/edit_text"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancelRentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:onClick="cancelViewTables"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/cancel_text"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/deleteRestaurantButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:onClick="deleteRestaurantButton"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/delete_restaurant_text"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toStartOf="@+id/editButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cancelRentButton"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

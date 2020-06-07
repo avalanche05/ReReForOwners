@@ -1,29 +1,32 @@
 package com.example.restaurantrent;
 
-public class Owner {
-    private long id;
+import java.io.Serializable;
+
+public class Owner implements Serializable {
+
+    private Long id;
     private String email;
     private String password;
-    private int restaurantCount;
+    private boolean isAuth;
 
-    public Owner(long id, String email, String password, int restaurantCount) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.restaurantCount = restaurantCount;
+    public Owner() {
     }
 
-    public Owner(String email, String password, int restaurantCount) {
+    public Owner(String email, String password) {
         this.email = email;
         this.password = password;
-        this.restaurantCount = restaurantCount;
     }
 
-    public long getId() {
+    @Override
+    public String toString() {
+        return "Email: " + email;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,11 +46,11 @@ public class Owner {
         this.password = password;
     }
 
-    public int getRestaurantCount() {
-        return restaurantCount;
+    public boolean isAuth() {
+        return isAuth;
     }
 
-    public void setRestaurantCount(int restaurantCount) {
-        this.restaurantCount = restaurantCount;
+    public void setAuth(boolean auth) {
+        isAuth = auth;
     }
 }

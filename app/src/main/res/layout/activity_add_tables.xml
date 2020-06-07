@@ -11,10 +11,25 @@
         android:id="@+id/button2"
         android:layout_width="117dp"
         android:layout_height="61dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
         android:background="@drawable/button"
         android:onClick="saveButtons"
-        android:text="Сохранить"
+        android:text="@string/save_button"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dropTextView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="52dp"
+        android:background="@drawable/button"
+        android:padding="13dp"
+        android:text="@string/drop_table_text"
+        android:textColor="@color/colorText"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

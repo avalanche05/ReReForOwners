@@ -15,15 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.restaurantrent.ActConst;
 import com.example.restaurantrent.R;
 
+import com.example.restaurantrent.Server;
 import com.example.restaurantrent.activities.MainActivity;
 
+import com.example.restaurantrent.activities.ViewTablesActivity;
 import com.example.restaurantrent.adapters.RestaurantAdapter;
-import com.example.restaurantrent.services.HttpService;
-
-
 
 
 public class DashboardFragment extends Fragment {
@@ -40,10 +38,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
 
-                Intent intent = new Intent(getActivity(),HttpService.class);
-                intent.putExtra("act",ActConst.GET_RESTAURANTS_ACT);
-                intent.putExtra("idOwner",MainActivity.idOwner);
-                getActivity().startService(intent);
+                Server.getRestaurants(MainActivity.owner.getId());
 
                 RestaurantAdapter restaurantAdapter = new RestaurantAdapter(getContext(),MainActivity.restaurants);
                 restaurantList.setAdapter(restaurantAdapter);
@@ -51,10 +46,8 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         long restaurantId = MainActivity.restaurants.get(position).getId();
-                        Intent i = new Intent(getActivity(), HttpService.class);
-                        i.putExtra("act", ActConst.GET_TABLES_ACT);
-                        i.putExtra("idRestaurant",restaurantId);
-                        getActivity().startService(i);
+                        ViewTablesActivity.index = position;
+                        Server.tableGet(restaurantId,getActivity(),new Intent(getActivity(), ViewTablesActivity.class));
                     }
                 });
             }

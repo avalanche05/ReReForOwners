@@ -1,75 +1,79 @@
 package com.example.restaurantrent.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.example.restaurantrent.ActConst;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.restaurantrent.Helper;
 import com.example.restaurantrent.R;
-import com.example.restaurantrent.Table;
-
-import com.example.restaurantrent.services.HttpService;
+import com.example.restaurantrent.Server;
 
 import java.util.ArrayList;
 
+// activity для добавления столов в кнокретный ресторан
 public class AddTablesActivity extends AppCompatActivity {
-    private Button b;
-    private int i = 1;
-    public static ArrayList<Table> tables = new ArrayList<>();
-    private Drawable tableDrawble;
 
+    // массив созданных столов
     public static ArrayList<Button> buttons = new ArrayList<Button>();
-
+    // фон для стола
+    private Drawable tableDrawable;
+    private TextView dropTextView;
+    // поле для закрытия этого activity из другого класса
     public static Activity addTablesActivityThis;
+
+    private int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tables);
-
         addTablesActivityThis = this;
 
-        tableDrawble = getDrawable(R.drawable.table);
-        System.out.println(RegisterRestaurantActivity.idRestaurant);
+        dropTextView = findViewById(R.id.dropTextView);
+
+        tableDrawable = getDrawable(R.drawable.table);
+
         Button button = new Button(AddTablesActivity.this);
-        addContentView(button,new ViewGroup.LayoutParams(250,250));
+        // добавляем кнопку в окно
+        addContentView(button, new ViewGroup.LayoutParams(250, 250));
+        // делаем кнопку ненажимаемой
         button.setClickable(false);
-        button.setBackground(tableDrawble);
+        // ставим фон кнопки
+        button.setBackground(tableDrawable);
+        // вызываем метод добавления новой кнопки
         addButton(button);
     }
-    public void saveButtons(View view){
 
-        tables.clear();
-      for(Button temp: buttons){
-          Intent i = new Intent(AddTablesActivity.this, HttpService.class);
-          i.putExtra("act", ActConst.SET_TABLES_ACT);
-          i.putExtra("idOwner",RegisterRestaurantActivity.idRestaurant);
-          i.putExtra("x",temp.getX());
-          i.putExtra("y",temp.getY());
-          startService(i);
-      }
-      buttons.clear();
-        Intent intent = new Intent(AddTablesActivity.this, HttpService.class);
-        intent.putExtra("act",ActConst.GET_TABLES_ACT);
-        intent.putExtra("idRestaurant",RegisterRestaurantActivity.idRestaurant);
-        startService(intent);
+    public void saveButtons(View view) {
 
+        // пытаемся закрыть RegisterRestaurantActivity
+        try {
+            RegisterRestaurantActivity.registerRestaurantActivityThis.finish();
+            // обрабатываем ошибку
+        } catch (Exception e) {
+            // закрываем ViewTablesActivity
+            ViewTablesActivity.viewTablesActivityThis.finish();
+        }
+
+        // отперавляем запрос добавления столов на сервер
+        Server.tableAdd(Helper.convertButtonsFromTables(buttons, getIntent().getLongExtra("idRestaurant", -1)), AddTablesActivity.this);
+        buttons.clear();
 
 
     }
 
     @SuppressLint("ClickableViewAccessibility")
+    // метод для добавления и перетаскивания кнопок по экрану
     public void addButton(Button button) {
+        // отслеживаем нажатие на кнопку
         button.setOnTouchListener(new View.OnTouchListener() {
             float dX;
             float dY;
@@ -77,14 +81,17 @@ public class AddTablesActivity extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public boolean onTouch(View view, MotionEvent event) {
+                // отслеживаем действия с кнопкой
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_DOWN:
+                        // устанавливаем координаты кнопки
                         dX = view.getX() - event.getRawX();
                         dY = view.getY() - event.getRawY();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
+                        // перемещаем кнопку за пальцем
                         view.animate()
                                 .x(event.getRawX() + dX)
                                 .y(event.getRawY() + dY)
@@ -94,18 +101,29 @@ public class AddTablesActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         Button button = new Button(AddTablesActivity.this);
                         button.setClickable(false);
-                        b = (Button) view;
-                        if (b.getX() > 50 || b.getY() > 50) {
-                            if (b.getText().toString().isEmpty()) {
-                                b.setText(""+i++);
-                                buttons.add(b);
-                            } else {
-                                buttons.set(Integer.parseInt(b.getText().toString()) - 1, b);
-                            }
-                            button.setBackground(tableDrawble);
-                            addContentView(button, new ViewGroup.LayoutParams(250, 250));
-                            addButton(button);
+                        Button b = (Button) view;
+
+                        // проверяем не находится ли кнопка в области удаления кнопок
+                        if (view.getX() >= dropTextView.getX() - 40 && view.getX() <= dropTextView.getX() + 40 && view.getY() >= dropTextView.getY() - 40 && view.getY() <= dropTextView.getX() + 40) {
+                            // делаем кнопку невидимой
+                            view.setVisibility(Button.INVISIBLE);
+                            // проверяем новая ли кнопка
+                        } else if (b.getText().toString().isEmpty()) {
+                            b.setText("" + i++);
+                            // добавляем новую кнопку
+                            buttons.add(b);
+                            // если кнопка уже была добавлена и её перетаскивают в другое место
+                        } else if (buttons.size() > Integer.parseInt(b.getText().toString()) - 1) {
+                            // меняем координаты уже существующей кнопки в массиве
+                            buttons.set(Integer.parseInt(b.getText().toString()) - 1, b);
                         }
+
+                        // ставим фон кнопки
+                        button.setBackground(tableDrawable);
+                        // добавляем кнопку в окно
+                        addContentView(button, new ViewGroup.LayoutParams(250, 250));
+                        // вызываем метод добавления новой кнопки
+                        addButton(button);
 
                         break;
                     default:
