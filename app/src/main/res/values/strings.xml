@@ -16,7 +16,7 @@
     <string name="rents_text">Заказы</string>
     <string name="title_restaurant_text">Название</string>
     <string name="address_text">Адрес</string>
-    <string name="register_restaurant_text">Зарегестрировать</string>
+    <string name="register_restaurant_text">Продолжить</string>
     <string name="out_text">Выйти</string>
     <string name="delete_rent_text">Удалить бронь</string>
     <string name="cancel_text">Отменить</string>
@@ -26,4 +26,6 @@
     <string name="out_account_text">Выйти из аккаунта</string>
     <string name="email_not_confirm">Почта не подтверждена</string>
     <string name="email_confirm">Почта подтверждена</string>
+    <string name="chat_title">Сообщения от клиента</string>
+    <string name="rent_title">Список заказов</string>
 </resources>

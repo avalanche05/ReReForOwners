@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.restaurantrent.activities.ViewRentTablesActivity">
+    tools:context="com.example.restaurantrent_owner.activities.ViewRentTablesActivity">
 
     <Button
         android:id="@+id/button"
@@ -41,14 +41,11 @@
         android:id="@+id/rentInfoTextView"
         android:layout_width="146dp"
         android:layout_height="58dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
         android:text="00:00 \n01 Марта"
-        android:textSize="23dp"
         android:textColor="@color/colorText"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button3"
+        android:textSize="23dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

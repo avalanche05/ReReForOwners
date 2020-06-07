@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.restaurantrent">
+    package="com.example.restaurantrent_owner">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -12,17 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.AddTablesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ChatActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ViewTablesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ViewRentTablesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RegisterRestaurantActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.AddTablesActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.ChatActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.ViewTablesActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.ViewRentTablesActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.RegisterRestaurantActivity" android:screenOrientation="portrait"/>
         <activity
             android:screenOrientation="portrait"
-            android:name=".activities.MainActivity"
+            android:name="com.example.restaurantrent_owner.activities.MainActivity"
             android:label="@string/title_activity_main2" />
-        <activity android:name=".activities.SignUpActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.LoginActivity" android:screenOrientation="portrait">
+        <activity android:name="com.example.restaurantrent_owner.activities.SignUpActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.example.restaurantrent_owner.activities.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
